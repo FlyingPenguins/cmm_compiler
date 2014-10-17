@@ -8,14 +8,19 @@
 
 all:	cmm
 
-bison:	cmm_parser.y
-	bison -d cmm_parser.y
-	cc -o $@ cmm_parser.tab.c cmm_parser.tab.h
+cmm:	cmm.l cmm.y
+	bison -d cmm.y && \
+        flex -ocmm.lex.c cmm.l && \
+        cc -g -o $@ cmm.tab.c cmm.tab.h cmm.lex.c -lm
 
-cmm:	fb3-2.l fb3-2.y fb3-2.h fb3-2funcs.c
-	bison -d fb3-2.y && \
-	flex -ofb3-2.lex.c fb3-2.l && \
-	cc -g -o $@ fb3-2.tab.c fb3-2.lex.c fb3-2funcs.c -lm
+bison:	cmm.y
+	bison -d cmm.y && \
+	cc -g -o $@ cmm.tab.c cmm.tab.h -lm
+
+flex:	cmm.l
+	flex -ocmm.lex.c cmm.l && \
+	cc -g -o $@ cmm.lex.c -lm
 
 clean:
-	rm -f cmm_parser.tab.c cmm_parser.tab.h
+	rm -f cmm.tab.c cmm.tab.h \
+	cmm.lex.c *.o

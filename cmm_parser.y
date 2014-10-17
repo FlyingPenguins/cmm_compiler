@@ -42,18 +42,19 @@
 %token INT
 %token RETURN
 %token WHILE
-%token 
-
+ 
+/*
 %type <a> exp factor term
+*/
 
 %%
 
 program: /* nothing */
 | variable_definitions function_definitions {
      /*
-     printf("= %4.4g\n", eval($2));
+     printf('= %4.4g\n', eval($2));
      treefree($2);
-     printf("> ");
+     printf('> ');
      /**/
  }
 ;
@@ -74,7 +75,7 @@ identifier_list: ID
 ;
 
 variable_definitions: /*nothing*/
-    | varibale_definitions type identifier_list {}
+    | variable_definitions type identifier_list {}
 ;
 
 type: INT {}
@@ -117,6 +118,64 @@ input_statement: CIN {}
     | input_statement STREAMIN variable {}
 ;
 
+output_statement: COUT {}
+ | output_statement STREAMOUT expression {}
+ | output_statement STREAMOUT STR_LITERAL {}
+ | output_statement STREAMOUT ENDL {}
+ ;
 
+compound_statement: '{' statements '}' {}
+ ;
+
+
+variable: ID
+ | ID '[' expression ']' {}
+ ;
+
+expression_list:
+ | expressions {}
+ ;
+
+expressions: expression {}
+ | expressions ',' expression {}
+ ;
+
+expression: variable ASSIGNOP expression {}
+ | variable INCOP expression {}
+ | simple_expression {}
+ ;
+
+simple_expression: term {}
+ | ADDOP term {}
+ | simple_expression ADDOP term {}
+ ;
+
+term: factor {}
+ | term MULOP factor {}
+ ;
+
+factor: ID {}
+ | ID '(' expression_list ')' {}
+ | literal {}
+ | '(' expression ')' {}
+ | ID '[' expression ']' {}
+ ;
+
+literal: INT_LITERAL {}
+ | FLT_LITERAL {}
+ ;
+
+bool_expression: bool_term {}
+ | bool_expression OR bool_term {}
+ ;
+
+bool_term: bool_factor {}
+ | bool_term AND bool_factor {}
+ ;
+
+bool_factor: NOT bool_factor {}
+ | '(' bool_expression ')' {}
+ | simple_expression RELOP simple_expression {}
+ ;
 
 %%

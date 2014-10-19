@@ -4,7 +4,6 @@
 
 #include "symtable.h"
 
-#define MULTIPLIER (37)
 #define OAT_HASH_LEN (20)
 
 struct _list_t_ {

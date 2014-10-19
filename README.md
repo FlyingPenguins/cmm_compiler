@@ -5,7 +5,10 @@ Term project for compiler theory class using flex and bison to create a compiler
 
 Make targets:
 
-all: compiles bison, lex and any additional utility files (not yet implemented)
-bison: compiles bison (.y) files only
-flex: compiles flex (.l) files only
-clean: removes all compiled/executable files
+* `all`: compiles bison, flex and any additional utility files. Output is `cmm` executable file.
+
+* `bison`: compiles bison (.y) files only
+
+* `flex`: compiles flex (.l) files only
+
+* `clean`: removes all compiled/executable files

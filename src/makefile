@@ -17,4 +17,4 @@ flex:	cmm.l
 
 clean:
 	rm -f cmm.tab.c cmm.tab.h \
-	cmm.lex.c *.o
+	cmm.lex.c *.o *~

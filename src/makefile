@@ -4,8 +4,8 @@ all:	cmm
 
 cmm:	cmm.l cmm.y
 	bison -d cmm.y && \
-        flex -ocmm.lex.c cmm.l && \
-        cc -g -o $@ cmm.tab.c cmm.tab.h cmm.lex.c -lm
+	flex -ocmm.lex.c cmm.l && \
+	cc -g -o $@ cmm.tab.c cmm.tab.h cmm.lex.c -lm
 
 bison:	cmm.y
 	bison -d cmm.y && \

@@ -38,16 +38,16 @@
 /* reserved words */
 %token CIN COUT ELSE ENDL FLOAT IF INT RETURN WHILE
 
-/* Define L->R or R->L grouping and operator 
+/* Define L->R or R->L grouping and operator
  * precedence. For justification, see:
  * http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Operator_precedence
- */ 
+ */
 %right ASSIGNOP INCOP
 %left AND OR
 %left RELOP
 %left STREAMIN STREAMOUT
 %left ADDOP
-%left MULOP 
+%left MULOP
 %nonassoc NOT UMINUS
 
 /*
@@ -62,16 +62,16 @@ program: /* nothing */
      printf('= %4.4g\n', eval($2));
      treefree($2);
      printf('> ');
-     /**/
+     */
  }
 ;
 
-function_definitions: 
-    function_head block { 
-        //$$ = newast('+', $1,$3); 
+function_definitions:
+    function_head block {
+        //$$ = newast('+', $1,$3);
     }
-    | function_definitions function_head block { 
-        //$$ = newast('+', $1,$3); 
+    | function_definitions function_head block {
+        //$$ = newast('+', $1,$3);
     }
  ;
 

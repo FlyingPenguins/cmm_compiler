@@ -1,7 +1,7 @@
 Status Report 1, 10/28/2014
 Flying Penguins: Zoe Fultz, Bryan Garza, Brandon Halpin, Joshua Titley, Francis Tweedy
 Completed:
-    1. Symbol Table:
+    1. Symbol Table: Symbol table works but scope has not been added yet.
     2. Error Handler: Basic organization and C code.  Current code compiles and runs 		without error.
     3. Bison Grammar: Grammar and tokens have been added and shift/reduce conflicts have 	been resolved, bison file compliles without erros or conflicts.
     4. File Handler:
@@ -29,3 +29,6 @@ Brandon: I have been collaborating with Zoe on the bison parser. We worked on ad
 Francis: I will finish the error handler and I plan to work on the lexical analyzer (Step 6).
 
 Joshua:  I have the initializer nearly complete, meeting with Bryan to finalize what he needs added to complete it.  Have made af ew programs in the target assembly and studied it in detail in order to assist in the translations.
+
+Bryan: Wrote the symbol table code, will add scoping soon, and also test cases
+to make sure everything works as intended.

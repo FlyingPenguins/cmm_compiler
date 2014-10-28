@@ -28,4 +28,4 @@ Brandon: I have been collaborating with Zoe on the bison parser. We worked on ad
 
 Francis: I will finish the error handler and I plan to work on the lexical analyzer (Step 6).
 
-
+Joshua:  I have the initializer nearly complete, meeting with Bryan to finalize what he needs added to complete it.  Have made af ew programs in the target assembly and studied it in detail in order to assist in the translations.   

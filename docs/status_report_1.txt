@@ -1,19 +1,25 @@
 Status Report 1, 10/28/2014
-Flying Penguins: Zoe Fultz, Bryan Garza, Brandon Halpin, Joshua Titley, Francis Tweedy
+Flying Penguins:
+    Zoe Fultz, Bryan Garza, Brandon Halpin, Joshua Titley, Francis Tweedy
 Completed:
     1. Symbol Table: Symbol table works but scope has not been added yet.
-    2. Error Handler: Basic organization and C code.  Current code compiles and runs 		without error.
-    3. Bison Grammar: Grammar and tokens have been added and shift/reduce conflicts have 	been resolved, bison file compliles without erros or conflicts.
+    2. Error Handler: Basic organization and C code.  Current code compiles and
+    runs without error.
+    3. Bison Grammar: Grammar and tokens have been added and shift/reduce
+    conflicts have been resolved, bison file compliles without errors or
+    conflicts.
     4. File Handler:
 Short Term Goals:
-    1. Integrate error handler and file handler into a generic "functions" utility file
+    1. Integrate error handler and file handler into a generic "functions"
+    utility file
     2. Expand on symbol table and test more extensively (Step 5)
-    3. Implement flex program to send tokens (and attribute values) to parser and utilize 	error handler (Step 6)
+    3. Implement flex program to send tokens (and attribute values) to parser
+    and utilize error handler (Step 6)
     4. Begin developing generic vmq subroutines for use in code generation
     5.
 Medium/Long Term Goals:
     1. Integrate symbol table with lex (Step 7)
-    2. Fill out parser functionality for syntax checking, no evaluation (Step 8)
+    2. Fill out parser functionality for syntax checking, no eval (Step 8)
     3.
     4.
 Questions:
@@ -21,14 +27,22 @@ Questions:
 Other concerns:
 
 Appendix:
-/** Please add your personal progress here... "describe what you have been working on and what you have accomplished on the project, and what they will be working on in the coming week."
+/* Please add your personal progress here...
+"describe what you have been working on and what you have accomplished on the
+project, and what they will be working on in the coming week."
 */
 
-Brandon: I have been collaborating with Zoe on the bison parser. We worked on adding the BNF Grammar to the bison parser and resolving the 3 shift/reduce conflicts. Bison file compiles with no errors or conflicts. I plan to work on the lex tokenizer.
+Brandon: I have been collaborating with Zoe on the bison parser. We worked on
+adding the BNF Grammar to the bison parser and resolving the 3 shift/reduce
+conflicts. Bison file compiles with no errors or conflicts. I plan to work on
+the lex tokenizer.
 
-Francis: I will finish the error handler and I plan to work on the lexical analyzer (Step 6).
+Francis: I will finish the error handler and I plan to work on the lexical
+analyzer (Step 6).
 
-Joshua:  I have the initializer nearly complete, meeting with Bryan to finalize what he needs added to complete it.  Have made af ew programs in the target assembly and studied it in detail in order to assist in the translations.
+Joshua: I have the initializer nearly complete, meeting with Bryan to finalize
+what he needs added to complete it.  Have made af ew programs in the target
+assembly and studied it in detail in order to assist in the translations.
 
 Bryan: Wrote the symbol table code, will add scoping soon, and also test cases
 to make sure everything works as intended.

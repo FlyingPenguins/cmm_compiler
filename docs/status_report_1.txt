@@ -38,6 +38,10 @@ adding the BNF Grammar to the bison parser and resolving the 3 shift/reduce
 conflicts. Bison file compiles with no errors or conflicts. I plan to work on
 the lex tokenizer.
 
+Zoe: As stated above, Brandon and I collaborated on the bison parser. We
+originally had 3 shift/reduce conflict that were later resolved. I plan to
+work on getting a lex tokenizer to work with the bison parser.
+
 Francis: I will finish the error handler and I plan to work on the lexical
 analyzer (Step 6).
 

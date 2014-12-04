@@ -14,8 +14,7 @@
     int i;          /* int literals */
     char* str;      /* string literals */
     char* id;       /* identifiers */
-    char op;        /* single character operators +, -, *, /, =, !... */
-    char* s_op;     /* multiple character operators +=, -=, <=, >=... */
+    char* op;       /* operators +, -, *, /, =, +=, -=, <=, >=... */
 }
 
 /* declare tokens */
@@ -23,16 +22,16 @@
 %token <op> MULOP
 %token <op> ADDOP
 %token <op> UMINUS  /* unary minus, prevents using "+-<expresion>" */
-%token <s_op> INCOP
-%token <s_op> RELOP
+%token <op> INCOP
+%token <op> RELOP
 %token <op> NOT
-%token <s_op> OR
-%token <s_op> AND
+%token <op> OR
+%token <op> AND
 %token <d> FLT_LITERAL
 %token <i> INT_LITERAL
 %token <str> STR_LITERAL
-%token <s_op> STREAMIN
-%token <s_op> STREAMOUT
+%token <op> STREAMIN
+%token <op> STREAMOUT
 %token <id> ID
 %token <id> FUNC_ID
 /* reserved words */

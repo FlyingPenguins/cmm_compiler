@@ -1,16 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include "cmm.h"
 #include "symtable.h"
 
 #define OAT_HASH_LEN (20)
 
 struct _list_t_ {
-    char *id;
+    char *name;
     char *type;
-    char *value;
-    struct _list_t_ *next;
+    double value;
+    struct ast *func;   /* statemnts for the function */
+    struct symlist *syms; /* list of dummy variables */
+    struct _list_t_ *next; /* linked list for collisions */
 };
 
 struct _hash_table_t_ {
@@ -63,6 +65,7 @@ oat_hash(hash_table_t *hashtable, void *key, int len)
         h ^= (h >> 11);
         h += (h << 15);
 
+        /* TODO Collision detection? */
         return h % hashtable->size;
 }
 
@@ -77,30 +80,30 @@ list_t
          * If it isn't, the item isn't in the table, so return NULL.
          */
         for(list = hashtable->table[h]; list != NULL; list = list->next) {
-                if (strcmp(str, list->id) == 0) return list;
+                if (strcmp(str, list->name) == 0) return list;
         }
 
         return NULL;
 }
 
 int
-add_id(hash_table_t *hashtable, char *id, char *type, char *value)
+add_id(hash_table_t *hashtable, char *name, char *type, double value)
 {
         list_t *new_list;
         list_t *current_list;
-        unsigned int h = oat_hash(hashtable, id, OAT_HASH_LEN);
+        unsigned int h = oat_hash(hashtable, name, OAT_HASH_LEN);
 
         /* Attempt to allocate memory for list */
         if ((new_list = malloc(sizeof(list_t))) == NULL) return 1;
 
         /* Does item already exist? */
-        current_list = lookup(hashtable, id);
+        current_list = lookup(hashtable, name);
         /* Item already exists, don't insert it again */
         if (current_list != NULL) return 2;
         /* Insert into list */
-        new_list->id = strdup(id);
+        new_list->name = strdup(name);
         new_list->type = strdup(type);
-        new_list->value = strdup(value);
+        new_list->value = value;
         new_list->next = hashtable->table[h];
         hashtable->table[h] = new_list;
 
@@ -114,7 +117,7 @@ free_table(hash_table_t *hashtable) {
 
         if (hashtable == NULL) return;
 
-        /* Free the memory for every item in the table, including the ids,
+        /* Free the memory for every item in the table, including the names,
          * types, and values themselves.
          */
         for(int i = 0; i < hashtable->size; i++) {
@@ -122,9 +125,9 @@ free_table(hash_table_t *hashtable) {
                 while(list != NULL) {
                         temp = list;
                         list = list->next;
-                        free(temp->id);
+                        free(temp->name);
                         free(temp->type);
-                        free(temp->value);
+                        //free(temp->value); 
                         free(temp);
                 }
         }
@@ -140,8 +143,8 @@ int main()
         int size_of_table = 1000;
         symbol_table = create_hash_table(size_of_table);
 
-        add_id(symbol_table, "x", "int", "25");
+        add_id(symbol_table, "x", "int", 25.0);
         list_t *entry = lookup(symbol_table, "x");
-        printf("id: %s, type: %s, value: %f\n", entry->id, entry->type,
-                        atof(entry->value));
+        printf("name: %s, type: %s, value: %g\n", entry->name, entry->type,
+                        entry->value);
 }

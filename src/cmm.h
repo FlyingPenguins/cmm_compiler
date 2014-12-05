@@ -75,7 +75,7 @@ struct floatval {
 struct intval {
   int nodetype;         /* TODO Create type id */
   int number;
-}
+};
 
 struct symref {
   int nodetype;			/* type N */

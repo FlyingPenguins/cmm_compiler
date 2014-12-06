@@ -2,10 +2,10 @@
 
 all:	cmm
 
-cmm:	cmm.l cmm.y
+cmm:	bison flex
 	bison -d cmm.y && \
 	flex -ocmm.lex.c cmm.l && \
-	cc -g -o $@ cmm.tab.c cmm.tab.h cmm.lex.c -lm
+	cc -g -o $@ cmm.tab.c cmm.tab.h cmm.lex.c symtable.c symtable.h -lm
 
 bison:	cmm.y
 	bison -d cmm.y && \

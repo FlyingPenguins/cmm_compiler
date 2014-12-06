@@ -5,12 +5,13 @@
  */
 
 /* list of symbols, for an argument list */
+#include "symtable.h"
 struct symlist {
-  struct symbol *sym;
+  symbol *sym;
   struct symlist *next;
 };
 
-struct symlist *newsymlist(struct symbol *sym, struct symlist *next);
+struct symlist *newsymlist(symbol *sym, struct symlist *next);
 void symlistfree(struct symlist *sl);
 
 /* node types
@@ -57,7 +58,7 @@ struct fncall {			/* built-in function */
 struct ufncall {		/* user function */
   int nodetype;			/* type C */
   struct ast *l;		/* list of arguments */
-  struct symbol *s;
+  symbol *s;
 };
 
 struct flow {
@@ -79,12 +80,12 @@ struct intval {
 
 struct symref {
   int nodetype;			/* type N */
-  struct symbol *s;
+  symbol *s;
 };
 
 struct symasgn {
   int nodetype;			/* type = */
-  struct symbol *s;
+  symbol *s;
   struct ast *v;		/* value */
 };
 
@@ -92,15 +93,15 @@ struct symasgn {
 struct ast *newast(int nodetype, struct ast *l, struct ast *r);
 struct ast *newcmp(int cmptype, struct ast *l, struct ast *r);
 struct ast *newfunc(int functype, struct ast *l);
-struct ast *newcall(struct symbol *s, struct ast *l);
-struct ast *newref(struct symbol *s);
-struct ast *newasgn(struct symbol *s, struct ast *v);
+struct ast *newcall(symbol *s, struct ast *l);
+struct ast *newref(symbol *s);
+struct ast *newasgn(symbol *s, struct ast *v);
 struct ast *newfloat(double d);
 struct ast *newint(int d);
 struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *tr);
 
 /* define a function */
-void dodef(struct symbol *name, struct symlist *syms, struct ast *stmts);
+void dodef(symbol *name, struct symlist *syms, struct ast *stmts);
 
 /* evaluate an AST */
 double eval(struct ast *);

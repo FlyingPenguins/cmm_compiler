@@ -10,7 +10,7 @@
 #	include <string.h>
 #	include <math.h>
 #	include "cmm.h"
-#	include "symtable.h"
+#	include "symtable.c"
 
 struct ast *
 newast(int nodetype, struct ast *l, struct ast *r)
@@ -28,7 +28,7 @@ newast(int nodetype, struct ast *l, struct ast *r)
 }
 
 struct ast *
-newfloat(float d)
+newfloat(double d)
 {
   struct floatval *a = malloc(sizeof(struct floatval));
   
@@ -85,7 +85,7 @@ newfunc(int functype, struct ast *l)
 }
 
 struct ast *
-newcall(struct symbol *s, struct ast *l)
+newcall(symbol *s, struct ast *l)
 {
   struct ufncall *a = malloc(sizeof(struct ufncall));
   
@@ -100,7 +100,7 @@ newcall(struct symbol *s, struct ast *l)
 }
 
 struct ast *
-newref(struct symbol *s)
+newref(symbol *s)
 {
   struct symref *a = malloc(sizeof(struct symref));
   
@@ -114,7 +114,7 @@ newref(struct symbol *s)
 }
 
 struct ast *
-newasgn(struct symbol *s, struct ast *v)
+newasgn(symbol *s, struct ast *v)
 {
   struct symasgn *a = malloc(sizeof(struct symasgn));
   
@@ -145,7 +145,7 @@ newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
 }
 
 struct symlist *
-newsymlist(struct symbol *sym, struct symlist *next)
+newsymlist(symbol *sym, struct symlist *next)
 {
   struct symlist *sl = malloc(sizeof(struct symlist));
   
@@ -172,7 +172,7 @@ symlistfree(struct symlist *sl)
 
 /* define a function */
 void
-dodef(struct symbol *name, struct symlist *syms, struct ast *func)
+dodef(symbol *name, struct symlist *syms, struct ast *func)
 {
   if(name->syms) symlistfree(name->syms);
   if(name->func) treefree(name->func);
@@ -284,7 +284,7 @@ callbuiltin(struct fncall *f)
 static double
 calluser(struct ufncall *f)
 {
-  struct symbol *fn = f->s;	/* function name */
+  symbol *fn = f->s;	/* function name */
   struct symlist *sl;		/* dummy arguments */
   struct ast *args = f->l;	/* actual arguments */
   double *oldval, *newval;	/* saved arg values */
@@ -329,7 +329,7 @@ calluser(struct ufncall *f)
   /* save old values of dummies, assign new ones */
   sl = fn->syms;
   for(i = 0; i < nargs; i++) {
-    struct symbol *s = sl->sym;
+    symbol *s = sl->sym;
 
     oldval[i] = s->value;
     s->value = newval[i];
@@ -344,7 +344,7 @@ calluser(struct ufncall *f)
   /* put the dummies back */
   sl = fn->syms;
   for(i = 0; i < nargs; i++) {
-    struct symbol *s = sl->sym;
+    symbol *s = sl->sym;
 
     s->value = oldval[i];
     sl = sl->next;
@@ -432,7 +432,7 @@ dumpast(struct ast *a, int level)
   case 'D': printf("number %4.4g\n", ((struct floatval *)a)->number); break;
 
     /* int */
-  case 'K': printf("number %4.4g\n", ((struct intval *)a)->number); break;
+  case 'K': printf("number %4.4d\n", ((struct intval *)a)->number); break;
 
     /* name reference */
   case 'N': printf("ref %s\n", ((struct symref *)a)->s->name); break;

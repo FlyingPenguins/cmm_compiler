@@ -17,7 +17,7 @@ struct _list_t_ {
 
 struct _hash_table_t_ {
     int size;
-    list_t **table;
+    symbol **table;
 };
 
 hash_table_t
@@ -33,7 +33,7 @@ hash_table_t
     }
 
     /* Attempt to allocate memory for the table itself */
-    if ((new_table->table = malloc(sizeof(list_t *) *size)) == NULL) {
+    if ((new_table->table = malloc(sizeof(symbol *) *size)) == NULL) {
         return NULL;
     }
 
@@ -69,10 +69,10 @@ oat_hash(hash_table_t *hashtable, void *key, int len)
         return h % hashtable->size;
 }
 
-list_t
+symbol
 *lookup(hash_table_t *hashtable, char *str)
 {
-        list_t *list;
+        symbol *list;
         unsigned int h = oat_hash(hashtable, str, OAT_HASH_LEN);
 
         /* Go to the correct list based on the hash value and see if str is in
@@ -89,12 +89,12 @@ list_t
 int
 add_id(hash_table_t *hashtable, char *name, char *type, double value)
 {
-        list_t *new_list;
-        list_t *current_list;
+        symbol *new_list;
+        symbol *current_list;
         unsigned int h = oat_hash(hashtable, name, OAT_HASH_LEN);
 
         /* Attempt to allocate memory for list */
-        if ((new_list = malloc(sizeof(list_t))) == NULL) return 1;
+        if ((new_list = malloc(sizeof(symbol))) == NULL) return 1;
 
         /* Does item already exist? */
         current_list = lookup(hashtable, name);
@@ -113,7 +113,7 @@ add_id(hash_table_t *hashtable, char *name, char *type, double value)
 void
 free_table(hash_table_t *hashtable) {
         int i;
-        list_t *list, *temp;
+        symbol *list, *temp;
 
         if (hashtable == NULL) return;
 
@@ -144,7 +144,7 @@ int main()
         symbol_table = create_hash_table(size_of_table);
 
         add_id(symbol_table, "x", "int", 25.0);
-        list_t *entry = lookup(symbol_table, "x");
+        symbol *entry = lookup(symbol_table, "x");
         printf("name: %s, type: %s, value: %g\n", entry->name, entry->type,
                         entry->value);
 }

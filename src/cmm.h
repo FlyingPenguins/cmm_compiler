@@ -4,15 +4,27 @@
  * Declarations for cmm compiler
  */
 
-/* list of symbols, for an argument list */
-#include "symtable.h"
+/* interface to the lexer */
+extern int yylineno; /* from lexer */
+void yyerror(char *s, ...);
+/* types for symbol table */
+typedef struct _list_t_ symbol;
+
+typedef struct _hash_table_t_ hash_table_t;
+
 struct symlist {
   symbol *sym;
   struct symlist *next;
 };
 
 struct symlist *newsymlist(symbol *sym, struct symlist *next);
+/* functions for symbol table */
 void symlistfree(struct symlist *sl);
+hash_table_t *create_hash_table(int size);
+unsigned oat_hash(hash_table_t *hashtable, void *key, int len);
+symbol *lookup_string(hash_table_t *hashtable, char *str);
+int add_id(hash_table_t *hashtable, char *name, char *type, double value);
+void free_table(hash_table_t *hashtable);
 
 /* node types
  *  + - * / |

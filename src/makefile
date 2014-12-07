@@ -2,19 +2,22 @@
 
 all:	cmm
 
-cmm:	bison flex
+cmm:	cmm.y cmm.l cmm.h cmmfuncs.c
 	bison -d cmm.y && \
 	flex -ocmm.lex.c cmm.l && \
-	cc -g -o $@ cmm.tab.c cmm.tab.h cmm.lex.c symtable.c symtable.h -lm
+	cc -std=c99 -g -o $@ cmm.tab.c cmm.tab.h cmm.lex.c -lm
 
-bison:	cmm.y
+bison:	cmm.y cmm.h cmmfuncs.c
 	bison -d cmm.y && \
-	cc -g -o $@ cmm.tab.c cmm.tab.h -lm
+	cc -std=c99 -g -o $@ cmm.tab.c cmm.tab.h cmm.h cmmfuncs.c -lm
 
 flex:	cmm.l
 	flex -ocmm.lex.c cmm.l && \
-	cc -g -o $@ cmm.lex.c -lm
+	cc -std=c99 -g -o $@ cmm.lex.c -lm
+
+funcs:	cmm.h cmmfuncs.c
+	cc -std=c99 -g -o $@ cmm.h cmmfuncs.c
 
 clean:
 	rm -f cmm.tab.c cmm.tab.h \
-	cmm.lex.c *.o *~
+	cmm.lex.c *.o *~ bison flex funcs cmm

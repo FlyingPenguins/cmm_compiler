@@ -1,11 +1,15 @@
-/* Group: Flying Penguins
- * Bison parser for cmm language
+/* Bison parser for cmm language compiler
+ * Group: Flying Penguins
+ * Members: Zoe Fultz, Bryan Garza, 
+ * Brandon Halpin, Joshua Titley, Francis Tweedy
+ * 
  *
  */
 
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include "cmm.h"
 %}
 
 %union {
@@ -33,7 +37,8 @@
 %token <op> STREAMIN
 %token <op> STREAMOUT
 %token <id> ID
-%token <id> FUNC_ID
+%token EOL
+/*%token <id> FUNC_ID*/
 /* reserved words */
 %token CIN COUT ELSE ENDL FLOAT IF INT RETURN WHILE
 
@@ -42,7 +47,7 @@
  * http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Operator_precedence
  */
 %right ASSIGNOP INCOP
-%left AND OR
+%left AND OR ID
 %left RELOP
 %left STREAMIN STREAMOUT
 %left ADDOP
@@ -74,10 +79,8 @@ function_definitions:
     }
  ;
 
-identifier_list: ID
-    | ID '[' INT_LITERAL ']' {}
-    | identifier_list ',' ID {}
-    | identifier_list ',' ID '[' INT_LITERAL ']' {}
+identifier_list: variable {}
+    | identifier_list ',' variable {}
 ;
 
 variable_definitions: /*nothing*/
@@ -159,17 +162,18 @@ simple_expression: term {}
 term: factor {}
     | term MULOP factor {}
 ;
-/* Needed to require id's that precede '(' to be function id's */
+/* Needed to require id's that precede '(' to be function id's 
 function: func_id '(' expression_list ')' {}
 ;
 
 func_id: FUNC_ID {}
 ;
 
-factor: variable {} /* replaced redundant rules for variable */
-    | function {}
-    | literal {}
+*/
+factor: literal {}
     | '(' expression ')' {}
+    | ID '(' expression_list ')' {}
+    | variable {}
 ;
 
 literal: INT_LITERAL {}

@@ -1,8 +1,9 @@
-/* Source code addapted for "flex & bison", published by O'Reilly
- * Media, ISBN 978-0-596-15597-1
- */
-/*
- * helper functions for cmm.c
+/* Helper functions for cmm compiler
+ * Group: Flying Penguins
+ * Members: Zoe Fultz, Bryan Garza, 
+ * Brandon Halpin, Joshua Titley, Francis Tweedy
+ * Source code addapted from "flex & bison", published by O'Reilly
+ * 
  */
 #	include <stdio.h>
 #	include <stdlib.h>

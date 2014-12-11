@@ -4,9 +4,6 @@
  * Declarations for cmm compiler
  */
 
-/* interface to the lexer */
-extern int yylineno; /* from lexer */
-void yyerror(char *s, ...);
 /* types for symbol table */
 typedef struct _list_t_ symbol;
 
@@ -123,6 +120,7 @@ void treefree(struct ast *);
 
 /* interface to the lexer */
 extern int yylineno; /* from lexer */
+extern int yyparse(void); /* from bison */
 void yyerror(char *s, ...);
 
 extern int debug;

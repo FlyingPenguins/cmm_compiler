@@ -8,13 +8,18 @@
 /* recognize tokens for the CMM compiler */
 
 %option noyywrap nodefault yylineno
-%x COMMENT
+%x C_COMMENT
 %{
 # include "cmm.h"
 # include "cmm.tab.h"
+#define YYSTYPE int
+extern YYSTYPE yyltype;
+int DEBUG = 1;
 %}
 
 %%
+
+
 "="     { yylval.op = yytext; return ASSIGNOP; /* Assignment operator */}
 
 "*" |
@@ -45,6 +50,9 @@
 ">=" |
 "<=" { yylval.op = yytext; return RELOP;  /* Relational operators */}
 
+">>" {return STREAMIN;}
+"<<" {return STREAMOUT;}
+[\"]((("*"[^/])?)|[^*])*[\"] {/* assign value of string */ return STR_LITERAL;}
 
 "cin"   { return CIN;  /* keywords */}
 "cout"  { return COUT; }
@@ -63,17 +71,14 @@
 
 [0-9]+ {yylval.i = atoi(yytext); return INT_LITERAL; }
 
-^"#"[ \t]*include[ \t]*[\"<] /*ignore includes */
- 
-"/*"           { BEGIN(COMMENT) ; /* comments */}
-<COMMENT>"*/"  { BEGIN(INITIAL); }
-<COMMENT>([^*]|\en)+|.
+^"#"[ \t]*include[ \t]*[\"<]+.*[^\">]+ {/* ignore includes*/}
+"/*"((("*"[^/])?)|[^*])*"*/" {if(DEBUG) printf("Block Comment \n");}
 
  
 "//".*\n
 [ \t]   
 \\\n    {printf("c> "); /* ignore line continuation */} 
-"\n"    { return EOL; }
+[\r\n]    { return EOL; }
 
 .	{ yyerror("Mystery character %c\n", *yytext); }
 

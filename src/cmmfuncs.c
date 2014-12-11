@@ -46,9 +46,9 @@ hash_table_t
     if ((new_table->table = malloc(sizeof(symbol *) *size)) == NULL) {
         return NULL;
     }
-
+    int i;
     /* Initialize the elements of the table */
-    for(int i = 0; i < size; i++) new_table->table[i] = NULL;
+    for(i = 0; i < size; i++) {new_table->table[i] = NULL;}
 
     /* Set the table's size */
     new_table->size = size;
@@ -130,7 +130,7 @@ free_table(hash_table_t *hashtable) {
         /* Free the memory for every item in the table, including the names,
          * types, and values themselves.
          */
-        for(int i = 0; i < hashtable->size; i++) {
+        for(i = 0; i < hashtable->size; i++) {
                 list = hashtable->table[i];
                 while(list != NULL) {
                         temp = list;
@@ -553,9 +553,8 @@ yyerror(char *s, ...)
 }
 
 int
-main()
+main(void)
 {
-  printf("> "); 
   return yyparse();
 }
 

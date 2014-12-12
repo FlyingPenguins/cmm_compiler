@@ -21,7 +21,6 @@ int gcd ( int a, int b )
 int main()
 {
 	cout << "asfg";
-    cin >>  x; /* Not reading ">>" properly */
+    cin >>  x; 
 	cout << x << gcd ( x, y ) << endl;
-    
 }

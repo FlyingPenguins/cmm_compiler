@@ -37,7 +37,6 @@
 %token <op> STREAMIN
 %token <op> STREAMOUT
 %token <id> ID
-%token EOL
 /*%token <id> FUNC_ID*/
 /* reserved words */
 %token CIN COUT ELSE ENDL FLOAT IF INT RETURN WHILE
@@ -61,53 +60,43 @@
 %%
 
 program: /* nothing */
-| variable_definitions function_definitions {
-     /*
-     printf('= %4.4g\n', eval($2));
-     treefree($2);
-     printf('> ');
-     */
- }
+| variable_definitions function_definitions {printf("Start program \n"); }
 ;
 
 function_definitions:
-    function_head block {
-        //$$ = newast('+', $1,$3);
-    }
-    | function_definitions function_head block {
-        //$$ = newast('+', $1,$3);
-    }
+    function_head block {printf("Start function \n"); }
+    | function_definitions function_head block {printf("Start function \n");}
  ;
 
-identifier_list: variable {}
-    | identifier_list ',' variable {}
+identifier_list: variable {printf("variable \n");}
+    | identifier_list ',' variable {printf("ID list \n");}
 ;
 
 variable_definitions: /*nothing*/
-    | variable_definitions type identifier_list {}
+    | variable_definitions type identifier_list ';' {printf("Start variable defs \n");}
 ;
 
-type: INT {}
-    | FLOAT {}
+type: INT {printf("INT type \n");}
+    | FLOAT {printf("FLOAT type \n");}
 ;
 
-function_head: type ID arguments {}
+function_head: type ID arguments {printf("function head \n");}
 ;
 
-arguments: '(' parameter_list ')' {}
+arguments: '(' parameter_list ')' {printf("Args \n");}
 ;
 
 parameter_list: /*nothing*/
     | parameters
 ;
 
-parameters: type ID {}
-    | type ID '[' ']' {}
+parameters: type ID {printf("variable \n");}
+    | type ID '[' ']' {printf("array \n");}
     | parameters ',' type ID {}
     | parameters ',' type ID '[' ']' {}
 ;
 
-block: '{' variable_definitions statements '}' {}
+block: '{' variable_definitions statements '}' {printf("Block \n");}
 ;
 
 statements: /*nothing*/
@@ -124,13 +113,13 @@ statement: expression ';' {}
 ;
 
 input_statement: CIN {}
-    | input_statement STREAMIN variable {}
+    | input_statement STREAMIN variable {printf("Streamin \n");}
 ;
 
-output_statement: COUT {}
-    | output_statement STREAMOUT expression {}
-    | output_statement STREAMOUT STR_LITERAL {}
-    | output_statement STREAMOUT ENDL {}
+output_statement: COUT {printf("COUT \n");}
+    | output_statement STREAMOUT expression {printf("Streamout \n");}
+    | output_statement STREAMOUT STR_LITERAL {printf("Streamout %s\n", $3);}
+    | output_statement STREAMOUT ENDL {printf("Streamout \n");}
 ;
 
 compound_statement: '{' statements '}' {}

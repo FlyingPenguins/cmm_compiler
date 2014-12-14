@@ -118,7 +118,7 @@ input_statement: CIN {}
 
 output_statement: COUT {printf("COUT \n");}
     | output_statement STREAMOUT expression {printf("Streamout \n");}
-    | output_statement STREAMOUT STR_LITERAL {printf("Streamout %s\n", $3);}
+    | output_statement STREAMOUT STR_LITERAL {printf("Streamout\n");}
     | output_statement STREAMOUT ENDL {printf("Streamout \n");}
 ;
 

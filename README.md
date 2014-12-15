@@ -7,8 +7,8 @@ Make targets:
 
 * `all`: compiles bison, flex and any additional utility files. Output is `cmm` executable file.
 
-* `bison`: compiles bison (.y) files only
-
-* `flex`: compiles flex (.l) files only
-
 * `clean`: removes all compiled/executable files
+
+After building, the code can currently be tested by running:
+
+* `./cmm < ../tests/example.c`

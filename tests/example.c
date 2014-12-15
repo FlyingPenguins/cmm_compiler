@@ -1,10 +1,9 @@
 // Sample program for C++ subset
-// Computes the GCD of two integr
+// Computes the GCD of two integers
 
-/* asdg */
-/* asfdg
-asdf
-*/
+/* include statements are needed for real C++, but
+   are simply considered comments in our subset
+ */
 #include <iostream>
 
 int x, y;	// The two values whose GCD is to be computed
@@ -20,7 +19,7 @@ int gcd ( int a, int b )
 
 int main()
 {
-	cout << "asfg";
-    cin >>  x; 
-	cout << x << gcd ( x, y ) << endl;
+	cout << "Enter two integers: ";
+	cin >> x >> y;
+	cout << "The GCD is " << gcd ( x, y ) << endl;
 }

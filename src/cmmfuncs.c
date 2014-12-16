@@ -152,7 +152,7 @@ newsymlist(symbol *sym, struct symlist *next)
   struct symlist *sl = malloc(sizeof(struct symlist));
   
   if(!sl) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   sl->sym = sym;
@@ -182,7 +182,7 @@ newast(int nodetype, struct ast *l, struct ast *r)
   struct ast *a = malloc(sizeof(struct ast));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = nodetype;
@@ -197,7 +197,7 @@ newfloat(double d)
   struct floatval *a = malloc(sizeof(struct floatval));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = D;
@@ -210,7 +210,7 @@ newint(int k)
   struct intval *a = malloc(sizeof(struct intval));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = K;
@@ -224,7 +224,7 @@ newcmp(int cmptype, struct ast *l, struct ast *r)
   struct ast *a = malloc(sizeof(struct ast));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = cmptype;
@@ -240,7 +240,7 @@ newcall(symbol *s, struct ast *l)
   struct ufncall *a = malloc(sizeof(struct ufncall));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = CALL;
@@ -255,7 +255,7 @@ newref(symbol *s)
   struct symref *a = malloc(sizeof(struct symref));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = SYM;
@@ -269,7 +269,7 @@ newasgn(symbol *s, struct ast *v)
   struct symasgn *a = malloc(sizeof(struct symasgn));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = ASG;
@@ -284,7 +284,7 @@ newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
   struct flow *a = malloc(sizeof(struct flow));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = nodetype;
@@ -300,7 +300,7 @@ newin(symbol *s)
   struct symin *a = malloc(sizeof(struct symin));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = IN;
@@ -314,7 +314,7 @@ newout(struct ast *lt, char* str)
   struct symout *a = malloc(sizeof(struct symout));
   
   if(!a) {
-    yyerror("out of space");
+    yyerror("out of space", 1);
     exit(0);
   }
   a->nodetype = OUT;
@@ -341,7 +341,7 @@ eval(struct ast *a)
   double v;
 
   if(!a) {
-    yyerror("internal error, null eval");
+    yyerror("internal error, null eval", 1);
     return 0.0;
   }
 
@@ -424,7 +424,7 @@ calluser(struct ufncall *f)
   int i;
 
   if(!fn->func) {
-    yyerror("call to undefined function", fn->name);
+    yyerror("call to undefined function", 2, fn->name);
     return 0;
   }
 
@@ -437,13 +437,13 @@ calluser(struct ufncall *f)
   oldval = (double *)malloc(nargs * sizeof(double));
   newval = (double *)malloc(nargs * sizeof(double));
   if(!oldval || !newval) {
-    yyerror("Out of space in %s", fn->name); return 0.0;
+    yyerror("Out of space in %s", 2, fn->name); return 0.0;
   }
   
   /* evaluate the arguments */
   for(i = 0; i < nargs; i++) {
     if(!args) {
-      yyerror("too few args in call to %s", fn->name);
+      yyerror("too few args in call to %s", 2, fn->name);
       free(oldval); free(newval);
       return 0;
     }
@@ -529,11 +529,21 @@ treefree(struct ast *a)
 }
 
 void
-yyerror(char *s, ...)
+yyerror(char *s, int level, ...)
 {
   va_list ap;
-  va_start(ap, s);
-
+  va_start(ap, level);
+  if (level == 1){
+		printf("Warning on line: %d \n", yylineno);
+	}
+	if (level == 2){
+		printf("Error on line: %d \n", yylineno);
+		/*Prevent creation of output file*/
+	}
+	if (level == 3){
+		printf("Fatal on line: %d \n", yylineno);
+		exit(1);
+	}
   fprintf(stderr, "%d: error: ", yylineno);
   vfprintf(stderr, s, ap);
   fprintf(stderr, "\n");

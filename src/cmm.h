@@ -144,7 +144,7 @@ void treefree(struct ast *);
 /* interface to the lexer */
 extern int yylineno; /* from lexer */
 extern int yyparse(void); /* from bison */
-void yyerror(char *s, ...);
+void yyerror(char *s, int level, ...);
 
 extern int debug;
 void dumpast(struct ast *a, int level);

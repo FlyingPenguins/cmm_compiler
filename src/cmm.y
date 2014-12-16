@@ -86,7 +86,7 @@ function_definitions:
 
 identifier_list: variable {
         printf("variable \n");
-        $$ = $1}
+        $$ = $1;}
     | identifier_list ',' variable {
         printf("ID list \n");}
 ;

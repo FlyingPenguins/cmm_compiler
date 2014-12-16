@@ -178,7 +178,7 @@ symlistfree(struct symlist *sl)
 
 /* ast type definitions */
 struct ast *
-newast(int nodetype, struct ast *l, struct ast *r)
+newast(char* nodetype, struct ast *l, struct ast *r)
 {
   struct ast *a = malloc(sizeof(struct ast));
   
@@ -220,7 +220,7 @@ newint(int k)
 }
 
 struct ast *
-newcmp(int cmptype, struct ast *l, struct ast *r)
+newcmp(char* cmptype, struct ast *l, struct ast *r)
 {
   struct ast *a = malloc(sizeof(struct ast));
   
@@ -228,7 +228,7 @@ newcmp(int cmptype, struct ast *l, struct ast *r)
     yyerror("out of space");
     exit(0);
   }
-  a->nodetype = '0' + cmptype;
+  a->nodetype = cmptype;
   a->l = l;
   a->r = r;
   return a;

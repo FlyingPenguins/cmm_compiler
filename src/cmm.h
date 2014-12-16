@@ -53,7 +53,7 @@ enum bifs {			/* built-in functions */
 /* all have common initial nodetype */
 
 struct ast {
-  int nodetype;
+  char* nodetype;
   struct ast *l;
   struct ast *r;
 };
@@ -99,8 +99,8 @@ struct symasgn {
 };
 
 /* build an AST */
-struct ast *newast(int nodetype, struct ast *l, struct ast *r);
-struct ast *newcmp(int cmptype, struct ast *l, struct ast *r);
+struct ast *newast(char* nodetype, struct ast *l, struct ast *r);
+struct ast *newcmp(char* cmptype, struct ast *l, struct ast *r);
 struct ast *newfunc(int functype, struct ast *l);
 struct ast *newcall(symbol *s, struct ast *l);
 struct ast *newref(symbol *s);

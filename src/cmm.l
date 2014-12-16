@@ -14,24 +14,24 @@
 # include "cmm.tab.h"
 #define YYSTYPE int
 extern YYSTYPE yyltype;
-int DEBUG = 1;
+extern int DEBUG;
 %}
 
 %%
 
 
-"="     {if(DEBUG) printf("%d ASSIGNOP \n", yylineno); yylval.op = yytext; return ASSIGNOP; /* Assignment operator */}
+"="     {if(DEBUG) printf("%d ASSIGNOP \n", yylineno); yylval.op = ASG; return ASSIGNOP; /* Assignment operator */}
 
-"*" |
-"/" |
-"%"     {if(DEBUG) printf("%d MULOP \n", yylineno); yylval.op = yytext; return MULOP; /* Multiplication operators */}
+"*"     {if(DEBUG) printf("%d MULOP \n", yylineno); yylval.op = MUL; return MULOP; /* Multiplication operators */}
+"/"     {if(DEBUG) printf("%d MULOP \n", yylineno); yylval.op = DIV; return MULOP; /* Multiplication operators */}
+"%"     {if(DEBUG) printf("%d MULOP \n", yylineno); yylval.op = MOD; return MULOP; /* Multiplication operators */}
 
-"+" |
-"-"     {if(DEBUG) printf("%d ADDOP \n", yylineno); yylval.op = yytext; return ADDOP; /* Addition operators */}
+"+"     {if(DEBUG) printf("%d ADDOP \n", yylineno); yylval.op = ADD; return ADDOP; /* Addition operators */}
+"-"     {if(DEBUG) printf("%d ADDOP \n", yylineno); yylval.op = SUB; return ADDOP; /* Addition operators */}
 
-"!"     {if(DEBUG) printf("%d NOT \n", yylineno); yylval.op = yytext; return NOT; /* Logical operators */}
-"||"    {if(DEBUG) printf("%d OR \n", yylineno); yylval.op = yytext; return OR; }
-"&&"    {if(DEBUG) printf("%d AND \n", yylineno); yylval.op = yytext; return AND; }
+"!"     {if(DEBUG) printf("%d NOT \n", yylineno); yylval.op = L_NOT; return NOT; /* Logical operators */}
+"||"    {if(DEBUG) printf("%d OR \n", yylineno); yylval.op = L_OR; return OR; }
+"&&"    {if(DEBUG) printf("%d AND \n", yylineno); yylval.op = L_AND; return AND; }
 
 "," |
 ";" |
@@ -43,12 +43,12 @@ int DEBUG = 1;
 "}"    {if(DEBUG) printf("%d Single char \n", yylineno); return yytext[0]; /* Single char literal tokens */}
 
 
-">"  |
-"<"  |
-"<>" |
-"==" |
-">=" |
-"<=" {if(DEBUG) printf("%d RELOP \n", yylineno); yylval.op = yytext; return RELOP;  /* Relational operators */}
+">"  {if(DEBUG) printf("%d RELOP \n", yylineno); yylval.op = GT; return RELOP;}
+"<"  {if(DEBUG) printf("%d RELOP \n", yylineno); yylval.op = LT; return RELOP;}
+"!=" {if(DEBUG) printf("%d RELOP \n", yylineno); yylval.op = NOTEQ; return RELOP;}
+"==" {if(DEBUG) printf("%d RELOP \n", yylineno); yylval.op = EQ; return RELOP;}
+">=" {if(DEBUG) printf("%d RELOP \n", yylineno); yylval.op = LTEQ; return RELOP;}
+"<=" {if(DEBUG) printf("%d RELOP \n", yylineno); yylval.op = GTEQ; return RELOP;}
 
 ">>" {if(DEBUG) printf("%d Streamin \n", yylineno); return STREAMIN;}
 "<<" {if(DEBUG) printf("%d Streaout \n", yylineno);return STREAMOUT;}
@@ -57,7 +57,7 @@ int DEBUG = 1;
 "cin"   {if(DEBUG) printf("%d CIN \n", yylineno); return CIN;  /* keywords */}
 "cout"  {if(DEBUG) printf("%d COUT \n", yylineno); return COUT; }
 "else"  {if(DEBUG) printf("%d ELSE \n", yylineno); return ELSE; }
-"ENDL"  {if(DEBUG) printf("%d ENDL \n", yylineno); return ENDL; }
+"endl"  {if(DEBUG) printf("%d ENDL \n", yylineno); return ENDL; }
 "if"    {if(DEBUG) printf("%d IF \n", yylineno); return IF; }
 "int"   {if(DEBUG) printf("%d INT \n", yylineno); return INT; }
 "return" {if(DEBUG) printf("%d RETURN \n", yylineno); return RETURN; }

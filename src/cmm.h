@@ -20,49 +20,59 @@ void symlistfree(struct symlist *sl);
 hash_table_t *create_hash_table(int size);
 unsigned oat_hash(hash_table_t *hashtable, void *key, int len);
 symbol *lookup_string(hash_table_t *hashtable, char *str);
-int add_id(hash_table_t *hashtable, char *name, char *type, double value);
+int add_id(hash_table_t *hashtable, char *name, int type, double value);
 void free_table(hash_table_t *hashtable);
 
-/* node types
- *  + - * / |
- *  K Integer
- *  D Double/Float
- *  0-7 -> CMP Comparison Operator //TODO Figure out what to do with comparisons
- *  M unary minus
- *  L statement list
- *  I IF statement
- *  W WHILE statement
- *  N symbol ref
- *  = assignment
- *  S list of symbols
- *  F built in function call
- *  C user function call
- *  INC Increment operator +=, -=
- *  LOG Logical Operator
- *  IO Stream In/Out ">>" "<<"
- */ 
 
-enum bifs {			/* built-in functions */
-  B_sqrt = 1,
-  B_exp,
-  B_log,
-  B_print
+
+
+enum type {			/* variable types */
+    t_int = 1,
+    t_double,
+    t_array_double,
+    t_array_int,
+    t_func
+};
+
+/* node types */
+enum node_t {
+    ADD = 1,// '+'
+    SUB,    // '-'
+    MUL,    // '*'
+    DIV,    // '/'
+    MOD,    // %
+    K,      // int
+    D,      // double or float
+    GT,     // >
+    LT,     // <
+    GTEQ,   // >=
+    LTEQ,   // <=
+    NOTEQ,  // !=
+    EQ,     // ==
+    UMIN, // (-)var
+    LIST,   // statement list
+    I,      // If
+    W,      // While
+    ASG,    // '=' assignment
+    SYM,    // symbol reference
+    CALL,   // function call
+    INC,    // increment/decrement '--' '++'
+    L_NOT,    // not
+    L_AND,    // and
+    L_OR,     // or
+    IN,     // input 'cin >>'
+    OUT     // output 'cout <<'
 };
 
 /* nodes in the Abstract Syntax Tree */
 /* all have common initial nodetype */
 
 struct ast {
-  char* nodetype;
+  int nodetype;
   struct ast *l;
   struct ast *r;
 };
 
-struct fncall {			/* built-in function */
-  int nodetype;			/* type F */
-  struct ast *l;
-  enum bifs functype;
-};
 
 struct ufncall {		/* user function */
   int nodetype;			/* type C */
@@ -90,6 +100,7 @@ struct intval {
 struct symref {
   int nodetype;			/* type N */
   symbol *s;
+  int type;
 };
 
 struct symasgn {
@@ -99,18 +110,18 @@ struct symasgn {
 };
 
 struct symin {
-	char* nodetype;		/*type IN */
+	int nodetype;		/*type IN */
 	symbol *s;
 };
 
 struct symout {
-	char* nodetype;		/*type OUT */
-	symbol *s;
-	struct ast *tl;
+	int nodetype;		/*type OUT */
+	struct ast *a;
+	char* str;
 };
 /* build an AST */
-struct ast *newast(char* nodetype, struct ast *l, struct ast *r);
-struct ast *newcmp(char* cmptype, struct ast *l, struct ast *r);
+struct ast *newast(int nodetype, struct ast *l, struct ast *r);
+struct ast *newcmp(int cmptype, struct ast *l, struct ast *r);
 struct ast *newfunc(int functype, struct ast *l);
 struct ast *newcall(symbol *s, struct ast *l);
 struct ast *newref(symbol *s);
@@ -119,7 +130,7 @@ struct ast *newfloat(double d);
 struct ast *newint(int d);
 struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *tr);
 struct ast *newin(symbol *s);
-struct ast *newout(symbol *s);
+struct ast *newout(struct ast *a, char* str);
 
 /* define a function */
 void dodef(symbol *name, struct symlist *syms, struct ast *stmts);

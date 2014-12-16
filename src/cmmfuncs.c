@@ -294,7 +294,7 @@ newasgn(symbol *s, struct ast *v)
 }
 
 struct ast *
-newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
+newflow(char* nodetype, struct ast *cond, struct ast *tl, struct ast *el)
 {
   struct flow *a = malloc(sizeof(struct flow));
   
@@ -309,7 +309,34 @@ newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
   return (struct ast *)a;
 }
 
+struct ast *
+newin(symbol *s)
+{
+  struct symin *a = malloc(sizeof(struct symin));
+  
+  if(!a) {
+    yyerror("out of space");
+    exit(0);
+  }
+  a->nodetype = "IN";
+  a->s = s;
+  return (struct ast *)a;
+}
 
+struct ast *
+newout(symbol *s, struct ast *tl)
+{
+  struct symout *a = malloc(sizeof(struct symout));
+  
+  if(!a) {
+    yyerror("out of space");
+    exit(0);
+  }
+  a->nodetype = "OUT";
+  a->s = s;
+	a->tl = tl;
+  return (struct ast *)a;
+}
 
 /* define a function */
 void

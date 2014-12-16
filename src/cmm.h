@@ -98,6 +98,16 @@ struct symasgn {
   struct ast *v;		/* value */
 };
 
+struct symin {
+	char* nodetype;		/*type IN */
+	symbol *s;
+};
+
+struct symout {
+	char* nodetype;		/*type OUT */
+	symbol *s;
+	struct ast *tl;
+};
 /* build an AST */
 struct ast *newast(char* nodetype, struct ast *l, struct ast *r);
 struct ast *newcmp(char* cmptype, struct ast *l, struct ast *r);
@@ -108,6 +118,8 @@ struct ast *newasgn(symbol *s, struct ast *v);
 struct ast *newfloat(double d);
 struct ast *newint(int d);
 struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *tr);
+struct ast *newin(symbol *s);
+struct ast *newout(symbol *s);
 
 /* define a function */
 void dodef(symbol *name, struct symlist *syms, struct ast *stmts);

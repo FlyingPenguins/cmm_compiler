@@ -1,0 +1,38 @@
+Final Status Report, 12/17/2014
+https://github.com/FlyingPenguins/cmm_compiler/
+Flying Penguins:
+    Zoe Fultz, Bryan Garza, Brandon Halpin, Joshua Titley, Francis Tweedy
+Completed:
+    1. Lexer: Tokenizing is being done and recognizes all key words and tokens
+		properly and passes them to bison
+    2. Parser: Skeletal parser functions without building AST's
+	3. VMQ generator: The vmq code generator functions and produces valid code
+Incomplete:
+	1. AST building is incomplete and generating errors.
+		More new types of AST's need to be created to handle
+		unique situations with non-terminals (lists of: statements, expressions etc.)
+	2. The code that would call the vmqgen code while traversing the AST is also
+		not yet implemented.
+Appendix:
+
+Brandon: I worked primarily on the bison parser. Fixing the shift/reduce conflicts, 
+	managing the interactions between the lexer and parser, as well as working toward
+	building the AST. We left off with the AST building portion only partially complete.
+	
+Zoe: Brandon and I worked extensively on the interactions between the lexer 
+	and the parser. We worked on getting the flex and bison 
+	code recognizing the test file although and started to get the parser
+	creating the ast's.
+
+Francis: I wrote the error handler function, worked on the tokenizer and was planning
+	on helping with the code that generates quads from the AST.
+
+Joshua: I wrote the code to satisfy #4.  The opening, closing of a filestream, program driver, and symbol table initializer.  Bryan opted to not have me initialize the symbol table, and we left the driver function to another part of the program.  
+	Wrote the stub methods for the translation from the compiler to the q code, with two variants present in the same file, some modifications were not completed.  
+	I studied the q code and write a few small programs for the eventuality of actually finishing the compiler.
+	I walked up the stairs to the lab several times.
+	I encountered a cyber stalker
+	I offered to buy pizza and was turned down.
+
+Bryan: Wrote the symbol table code and contributed to problem solving/debugging the
+	AST building functions in the parser.

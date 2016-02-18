@@ -27,12 +27,10 @@ Zoe: Brandon and I worked extensively on the interactions between the lexer
 Francis: I wrote the error handler function, worked on the tokenizer and was planning
 	on helping with the code that generates quads from the AST.
 
-Joshua: I wrote the code to satisfy #4.  The opening, closing of a filestream, program driver, and symbol table initializer.  Bryan opted to not have me initialize the symbol table, and we left the driver function to another part of the program.  
-	Wrote the stub methods for the translation from the compiler to the q code, with two variants present in the same file, some modifications were not completed.  
-	I studied the q code and write a few small programs for the eventuality of actually finishing the compiler.
-	I walked up the stairs to the lab several times.
-	I encountered a cyber stalker
-	I offered to buy pizza and was turned down.
+Joshua: I wrote the code to satisfy #4.  The opening, closing of a filestream, program driver, and symbol table initializer.  		Bryan opted to not have me initialize the symbol table, and we left the driver function to another part of the program 	Wrote the stub methods for the translation from the compiler to the q code, with two variants present in the same file, 		some modifications were not completed.  
+	I studied the q code and wrote the necassary functions for converting the code into the opcodes.
+	I wrestled with everyones crazy schedules, and organized the group in order to ensure each area of the project was 		progressing.  
+	
 
 Bryan: Wrote the symbol table code and contributed to problem solving/debugging the
 	AST building functions in the parser.
